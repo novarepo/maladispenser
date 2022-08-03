@@ -103,15 +103,15 @@ class ReportModal(Modal):
 
 
 class ReportView(discord.ui.View):
-    @discord.ui.button(label="Report Domain", style=discord.ButtonStyle.secondary)
+    @discord.ui.button(label="Report Domain", style=discord.ButtonStyle.primary)
     async def button_callback(self, button, interaction):
         modal = ReportModal(title="Report Domains")
         await interaction.response.send_modal(modal)
         #await interaction.response.send_message("To report this domain, please follow the following steps. Message /report followed by the name of the faulty domain you received. If we acknowledge this as legitimate, then we will give you an extra proxy use.", ephemeral=True)
 
-class AllView(discord.ui.View):
-    @discord.ui.button(label="Lucid Links", style=discord.ButtonStyle.primary, row=0) 
-    async def first_button_callback(self, button, interaction):
+class LucidView(discord.ui.View):
+    @discord.ui.button(label="Lucid Links", style=discord.ButtonStyle.primary) 
+    async def button_callback(self, button, interaction):
         BOOST_ROLE = discord.utils.get(interaction.user.guild.roles, name=config['boostRoleName'])
         if limiter(str(interaction.user), (BOOST_ROLE in interaction.user.roles)):
             await interaction.response.send_message("Sorry, your links are up!", ephemeral=True)
@@ -136,8 +136,10 @@ class AllView(discord.ui.View):
                     except:
                         pass
                 await interaction.response.send_message("error, contact staff", ephemeral=True)
-    @discord.ui.button(label="Void Links", style=discord.ButtonStyle.secondary, row=0) 
-    async def second_button_callback(self, button, interaction):
+
+class VoidView(discord.ui.View):
+    @discord.ui.button(label="Void Links", style=discord.ButtonStyle.primary) 
+    async def button_callback(self, button, interaction):
         BOOST_ROLE = discord.utils.get(interaction.user.guild.roles, name=config['boostRoleName'])
         if limiter(str(interaction.user), (BOOST_ROLE in interaction.user.roles)):
             await interaction.response.send_message("Sorry, your links are up!", ephemeral=True)
@@ -163,8 +165,10 @@ class AllView(discord.ui.View):
                         pass
                 await interaction.response.send_message("error, contact staff", ephemeral=True)
 
-    @discord.ui.button(label="Coffee Links", style=discord.ButtonStyle.green, row=0, disabled=True) 
-    async def third_button_callback(self, button, interaction):
+
+class RammerheadView(discord.ui.View): 
+    @discord.ui.button(label="Coffee Links", style=discord.ButtonStyle.primary) 
+    async def button_callback(self, button, interaction):
         BOOST_ROLE = discord.utils.get(interaction.user.guild.roles, name=config['boostRoleName'])
         if limiter(str(interaction.user), (BOOST_ROLE in interaction.user.roles)):
             await interaction.response.send_message("Sorry, your links are up!", ephemeral=True)
@@ -189,10 +193,6 @@ class AllView(discord.ui.View):
                     except:
                         pass
                 await interaction.response.send_message("error, contact staff", ephemeral=True)
-    @discord.ui.button(label="Report Domain", style=discord.ButtonStyle.red, row=0)
-    async def report_callback(self, button, interaction):
-        modal = ReportModal(title="Report Domains")
-        await interaction.response.send_modal(modal)
 
 @bot.event 
 async def on_ready():
@@ -211,8 +211,9 @@ async def reset_limits(ctx):
 @bot.slash_command()
 @commands.has_role(ROLE_NAME)
 async def initialize_links(ctx):
-    embed=discord.Embed(title="Astral Dispenser", description="The official proxy bot of Astral Network that dispenses a varienty of different domains for our various web proxies.")
-    await ctx.respond(embed=embed, view=AllView()) # Send a message with our View class that contains the button
+    await ctx.respond("Lucid, the webproxy of the future!", view=LucidView()) # Send a message with our View class that contains the button
+    await ctx.respond("Enter the void!", view=VoidView()) # Send a message with our View class that contains the button
+    await ctx.respond("Coffee, a revolutionary proxy developed on top of rammerhead!", view=RammerheadView()) # Send a message with our View class that contains the button
 
 @bot.slash_command()
 @commands.has_role(ROLE_NAME)
