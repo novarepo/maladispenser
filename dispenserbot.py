@@ -123,7 +123,7 @@ class AllView(discord.ui.View):
                     raise Exception("No unique links available.")
                 else:
                     addlink(link, str(interaction.user))
-                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView()) 
+                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView(timeout=1000000000)) 
             except:
                 data = json.load(open('users.json'))
                 for i in data:
@@ -149,7 +149,7 @@ class AllView(discord.ui.View):
                     raise Exception("No unique links available.")
                 else:
                     addlink(link, str(interaction.user))
-                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView()) 
+                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView(timeout=1000000000)) 
             except:
                 data = json.load(open('users.json'))
                 for i in data:
@@ -176,7 +176,7 @@ class AllView(discord.ui.View):
                     raise Exception("No unique links available.")
                 else:
                     addlink(link, str(interaction.user))
-                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView()) 
+                await interaction.response.send_message("Here is your link! {0}".format(link), ephemeral=True, view=ReportView(timeout=1000000000)) 
             except:
                 data = json.load(open('users.json'))
                 for i in data:
@@ -212,7 +212,7 @@ async def reset_limits(ctx):
 @commands.has_role(ROLE_NAME)
 async def initialize_links(ctx):
     embed=discord.Embed(title="Astral Dispenser", description="The official proxy bot of Astral Network that dispenses a varienty of different domains for our various web proxies.")
-    await ctx.respond(embed=embed, view=AllView()) # Send a message with our View class that contains the button
+    await ctx.respond(embed=embed, view=AllView(timeout=1000000000)) # Send a message with our View class that contains the button
 
 @bot.slash_command()
 @commands.has_role(ROLE_NAME)
